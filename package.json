@@ -1,0 +1,11 @@
+{
+  "name": "goit-react-native-hw",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Se1ena/goit-react-native-hw.git",
+  "author": "Veronika Moskaliuk <veronika.moskaliuk.ua@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "expo-cli": "^6.3.2"
+  }
+}
