@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import {
 	StyleSheet,
 	ImageBackground,
@@ -11,6 +11,12 @@ import {
 	TouchableWithoutFeedback,
 	Keyboard,
 } from "react-native";
+
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+
+SplashScreen.preventAutoHideAsync();
+
 
 export const RegistrationScreen = () => {
     const [login, setLogin] = useState("");
@@ -33,8 +39,23 @@ export const RegistrationScreen = () => {
 		console.log({ login, email, password });
 	};
 
+    const [fontsLoaded] = useFonts({
+		"Roboto-Medium": require("../../assets/fonts/Roboto-Medium.ttf"),
+		"Roboto-Regular": require("../../assets/fonts/Roboto-Regular.ttf"),
+	});
+
+	const onLayoutRootView = useCallback(async () => {
+		if (fontsLoaded) {
+			await SplashScreen.hideAsync();
+		}
+	}, [fontsLoaded]);
+
+	if (!fontsLoaded) {
+		return null;
+	}
+
 	return (
-		<View style={styles.container}>
+		<View style={styles.container}  onLayout={onLayoutRootView}>
 			<TouchableWithoutFeedback onPress={keyboardHide}>
 				<ImageBackground style={styles.image} source={require("../../assets/images/background-image.jpg")}>
 					<KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>
@@ -108,7 +129,9 @@ const styles = StyleSheet.create({
 	formTitle: {
 		marginBottom: 33,
 		fontSize: 30,
+        fontFamily: "Roboto-Medium",
 		textAlign: "center",
+
 		color: "#212121",
 	},
 	form: {
@@ -121,9 +144,11 @@ const styles = StyleSheet.create({
 		height: 50,
 		fontSize: 16,
 		lineHeight: 19,
+
 		borderWidth: 1,
 		borderColor: "#E8E8E8",
 		borderRadius: 8,
+
 		backgroundColor: "#F6F6F6",
 		color: "#212121",
 	},
@@ -136,8 +161,10 @@ const styles = StyleSheet.create({
 		backgroundColor: "#FF6C00",
 	},
 	btnRegisterTitle: {
+        fontFamily: "Roboto-Regular",
 		fontSize: 16,
 		lineHeight: 19,
+
 		color: "#FFF",
 	},
 	btnLogin: {
@@ -148,8 +175,10 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	btnLoginTitle: {
+        fontFamily: "Roboto-Regular",
 		fontSize: 16,
 		lineHeight: 19,
+
 		color: "#1B4371",
 	},
 });
