@@ -6,6 +6,7 @@
   "author": "Veronika Moskaliuk <veronika.moskaliuk.ua@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "expo-cli": "^6.3.2"
+    "expo-cli": "^6.3.2",
+    "react-native-svg": "13.4.0"
   }
 }
