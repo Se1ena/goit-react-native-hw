@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
 import {
   StyleSheet,
-  Text,
   ImageBackground,
+  Text,
   TextInput,
   View,
   TouchableOpacity,
@@ -15,13 +15,17 @@ import {
 
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+//import AddImage from "../../../assets/images/add.svg";
+import { AntDesign } from "@expo/vector-icons";
 
 SplashScreen.preventAutoHideAsync();
 
-export const LoginScreen = ( { navigation } ) => {
+export const RegistrationScreen = ({ navigation }) => {
+  const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [loginFocused, setLoginFocused] = useState("");
   const [emailFocused, setEmailFocused] = useState(false);
   const [paswordFocused, setPaswordFocused] = useState(false);
 
@@ -48,19 +52,20 @@ export const LoginScreen = ( { navigation } ) => {
   };
 
   const onSubmitForm = () => {
-    if (email === "" || password === "") {
+    if (login === "" || email === "" || password === "") {
       return alert("Please fill all fields");
     }
     setIsShowKeyboard(false);
     Keyboard.dismiss();
+    setLogin("");
     setEmail("");
     setPassword("");
-    console.log({ email, password });
+    console.log({ login, email, password });
   };
 
   const [fontsLoaded] = useFonts({
-    "Roboto-Medium": require("../../assets/fonts/Roboto-Medium.ttf"),
-    "Roboto-Regular": require("../../assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Medium": require("../../../assets/fonts/Roboto-Medium.ttf"),
+    "Roboto-Regular": require("../../../assets/fonts/Roboto-Regular.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -78,17 +83,36 @@ export const LoginScreen = ( { navigation } ) => {
       <View style={styles.container} onLayout={onLayoutRootView}>
         <ImageBackground
           style={styles.image}
-          source={require("../../assets/images/background-image.jpg")}
+          source={require("../../../assets/images/background-image.jpg")}
         >
-          <KeyboardAvoidingView behavior={Platform.OS == "ios" && "padding"}>
+          <KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>
             <View
-              style={{
-                ...styles.box,
-                paddingBottom: isShowKeyboard ? 32 : 111,
-              }}
+              style={{ ...styles.box, paddingBottom: isShowKeyboard ? 32 : 45 }}
             >
-              <Text style={styles.formTitle}>Увійти</Text>
+              <View style={styles.userImage}></View>
+              <TouchableOpacity style={styles.addImageBtn}>
+                <AntDesign name="pluscircleo" size={25} color="#FF6C00" />
+              </TouchableOpacity>
+              <Text style={styles.formTitle}>Реєстрація</Text>
               <View style={{ ...styles.form, width: dimensions }}>
+                <View style={{ marginBottom: 16 }}>
+                  <TextInput
+                    style={{
+                      ...styles.input,
+                      borderColor: loginFocused ? "#FF6C00" : "#E8E8E8",
+                      backgroundColor: loginFocused ? "#FFF" : "#F6F6F6",
+                    }}
+                    placeholder={"Логін"}
+                    placeholderTextColor={"#BDBDBD"}
+                    value={login}
+                    onChangeText={(value) => setLogin(value)}
+                    onFocus={() => {
+                      setIsShowKeyboard(true);
+                      setLoginFocused(true);
+                    }}
+                    onBlur={() => setLoginFocused(false)}
+                  />
+                </View>
                 <View style={{ marginBottom: 16 }}>
                   <TextInput
                     style={{
@@ -128,17 +152,18 @@ export const LoginScreen = ( { navigation } ) => {
                 </View>
                 <TouchableOpacity
                   activeOpacity={0.8}
-                  style={styles.btnLogin}
+                  style={styles.btnRegister}
                   onPress={onSubmitForm}
                 >
-                  <Text style={styles.btnLoginTitle}>Увійти</Text>
+                  <Text style={styles.btnRegisterTitle}>Зареєструватися</Text>
                 </TouchableOpacity>
               </View>
               {!isShowKeyboard && (
-                <TouchableOpacity style={styles.btnRegister} onPress={() => navigation.navigate("Registration")}>
-                  <Text style={styles.btnRegisterTitle}>
-                    Немає акаунту? Зареєструватися
-                  </Text>
+                <TouchableOpacity
+                  style={styles.btnLogin}
+                  onPress={() => navigation.navigate("Login")}
+                >
+                  <Text style={styles.btnLoginTitle}>Маєте акаунт? Увійти</Text>
                 </TouchableOpacity>
               )}
             </View>
@@ -160,7 +185,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   box: {
-    paddingTop: 32,
+    paddingTop: 92,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
 
@@ -168,10 +193,27 @@ const styles = StyleSheet.create({
 
     backgroundColor: "#FFF",
   },
+  userImage: {
+    width: 120,
+    height: 120,
+
+    position: "absolute",
+    top: -60,
+
+    backgroundColor: "#F6F6F6",
+    borderRadius: 16,
+  },
+  addImageBtn: {
+    position: "absolute",
+    top: 20,
+    right: 125,
+  },
   formTitle: {
-    marginBottom: 32,
+    marginBottom: 33,
     fontSize: 30,
+    fontFamily: "Roboto-Medium",
     textAlign: "center",
+
     color: "#212121",
   },
   form: {
@@ -183,11 +225,15 @@ const styles = StyleSheet.create({
     height: 50,
     fontSize: 16,
     lineHeight: 19,
+
     borderWidth: 1,
+    borderColor: "#E8E8E8",
     borderRadius: 8,
+
+    backgroundColor: "#F6F6F6",
     color: "#212121",
   },
-  btnLogin: {
+  btnRegister: {
     height: 50,
 
     justifyContent: "center",
@@ -195,21 +241,22 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "#FF6C00",
   },
-  btnLoginTitle: {
+  btnRegisterTitle: {
+    fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
-    justifyContent: "center",
 
     color: "#FFF",
   },
-  btnRegister: {
+  btnLogin: {
     marginHorizontal: 50,
     marginTop: 16,
 
     justifyContent: "center",
     alignItems: "center",
   },
-  btnRegisterTitle: {
+  btnLoginTitle: {
+    fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
 
