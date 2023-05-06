@@ -18,7 +18,7 @@ import * as SplashScreen from "expo-splash-screen";
 
 SplashScreen.preventAutoHideAsync();
 
-export const LoginScreen = () => {
+export const LoginScreen = ( { navigation } ) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -135,7 +135,7 @@ export const LoginScreen = () => {
                 </TouchableOpacity>
               </View>
               {!isShowKeyboard && (
-                <TouchableOpacity style={styles.btnRegister}>
+                <TouchableOpacity style={styles.btnRegister} onPress={() => navigation.navigate("Registration")}>
                   <Text style={styles.btnRegisterTitle}>
                     Немає акаунту? Зареєструватися
                   </Text>

@@ -19,7 +19,7 @@ import AddImage from "../../assets/images/add.svg";
 
 SplashScreen.preventAutoHideAsync();
 
-export const RegistrationScreen = () => {
+export const RegistrationScreen = ({ navigation }) => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -158,7 +158,7 @@ export const RegistrationScreen = () => {
                 </TouchableOpacity>
               </View>
               {!isShowKeyboard && (
-                <TouchableOpacity style={styles.btnLogin}>
+                <TouchableOpacity style={styles.btnLogin} onPress={() => navigation.navigate("Login")}>
                   <Text style={styles.btnLoginTitle}>Маєте акаунт? Увійти</Text>
                 </TouchableOpacity>
               )}
