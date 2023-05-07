@@ -1,3 +1,9 @@
+// Додати розмітку форми в компонент LoginScreen
+// Додати логіку роботи з формою в компонент LoginScreen
+// Під час сабміту форм збирати дані з них і виводити в консоль
+// Додати автозакриття клавіатури по кліку за межами форм (Використовуємо Keyboard.dismiss)
+// Додати стилі до компонента LoginScreen
+
 import { useState, useCallback, useEffect } from "react";
 import {
   StyleSheet,
