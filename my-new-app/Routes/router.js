@@ -9,7 +9,8 @@ import { CommentsScreen } from "../Screens/mainScreen/CommentsScreen";
 const AuthStack = createStackNavigator();
 const MainStack = createStackNavigator();
 
-export const useRoute = isAuth => {
+export const useRoute = (isAuth) => {
+  isAuth = true;
   if (!isAuth) {
     return (
       <AuthStack.Navigator>
